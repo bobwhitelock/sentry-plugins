@@ -194,7 +194,6 @@ class AsanaPlugin(CorePluginMixin, IssuePlugin2):
                 "be able to change it back to the current configuration "
                 "unless a teammate grants you access to the workspace in Asana."
             )
-        print ("workspace", workspaces)
         return [
             {
                 "name": "workspace",
