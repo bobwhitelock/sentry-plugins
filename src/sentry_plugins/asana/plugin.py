@@ -45,7 +45,7 @@ class AsanaPlugin(CorePluginMixin, IssuePlugin2):
         return False
 
     def get_workspace_choices(self, workspaces):
-        return [(w['id'], w['name']) for w in workspaces['data']]
+        return [(w["gid"], w["name"]) for w in workspaces["data"]]
 
     def get_new_issue_fields(self, request, group, event, **kwargs):
         fields = super(AsanaPlugin, self).get_new_issue_fields(request, group, event, **kwargs)
@@ -146,7 +146,7 @@ class AsanaPlugin(CorePluginMixin, IssuePlugin2):
         comment = form_data.get('comment')
         if comment:
             try:
-                client.create_comment(issue['id'], {'text': comment})
+                client.create_comment(issue["gid"], {"text": comment})
             except Exception as e:
                 self.raise_error(e, identity=client.auth)
 
@@ -195,12 +195,12 @@ class AsanaPlugin(CorePluginMixin, IssuePlugin2):
             )
         return [
             {
-                'name': 'workspace',
-                'label': 'Workspace',
-                'type': 'select',
-                'choices': workspace_choices,
-                'default': workspace or workspaces['data'][0]['id'],
-                'help': helptext
+                "name": "workspace",
+                "label": "Workspace",
+                "type": "select",
+                "choices": workspace_choices,
+                "default": workspace or workspaces["data"][0]["gid"],
+                "help": helptext,
             }
         ]
 
@@ -230,10 +230,8 @@ class AsanaPlugin(CorePluginMixin, IssuePlugin2):
             )
         else:
             results = [
-                {
-                    'text': '(#%s) %s' % (i['id'], i['name']),
-                    'id': i['id']
-                } for i in response.get('data', [])
+                {"text": "(#%s) %s" % (i["gid"], i["name"]), "id": i["gid"]}
+                for i in response.get("data", [])
             ]
 
         return Response({field: results})
