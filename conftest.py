@@ -13,8 +13,6 @@ def pytest_configure(config):
     # Note: Order of operations matters here.
     from sentry.runner.importer import install_plugin_apps
 
-    install_plugin_apps("sentry.apps", settings)
-
     from sentry.runner.initializer import register_plugins
 
     register_plugins(settings)
